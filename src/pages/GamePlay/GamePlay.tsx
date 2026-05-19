@@ -2,11 +2,13 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { Sudoku } from '@/games/Sudoku'
 import { Snake } from '@/games/Snake'
+import { Game2048 } from '@/games/Game2048'
 import { getGameById } from '@/data/games'
 import styles from './GamePlay.module.css'
 
 /** 内置游戏映射表 */
 const BUILTIN_GAMES: Record<string, React.ComponentType> = {
+  '1': Game2048, // 2048 经典版
   '2': Snake,    // 贪吃蛇大作战
   '8': Sudoku,   // 数独挑战
   // 后续可扩展更多内置游戏

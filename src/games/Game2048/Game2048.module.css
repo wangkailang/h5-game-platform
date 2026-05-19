@@ -1,0 +1,222 @@
+.container {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+/* ========== 计分板 ========== */
+.scoreboard {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.scoreBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #6c5ce7;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.scoreLabel {
+  font-size: 11px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.scoreValue {
+  font-size: 24px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== 工具栏 ========== */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toolBtn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #f0f0f0;
+  color: #2d3436;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.toolBtn:active:not(:disabled) {
+  background: #ddd;
+}
+
+.toolBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========== 棋盘 ========== */
+.board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #bbada0;
+  border-radius: 12px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.cellBg {
+  background: rgba(238, 228, 218, 0.35);
+  border-radius: 6px;
+}
+
+/* ========== 方块 ========== */
+.tile {
+  position: absolute;
+  width: calc(25% - 6px);
+  height: calc(25% - 6px);
+  margin: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  border-radius: 6px;
+  transition: left 0.12s ease, top 0.12s ease;
+  animation: popIn 0.15s ease-out;
+  z-index: 1;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 12 种色阶 */
+.tile2    { background: #eee4da; color: #776e65; }
+.tile4    { background: #ede0c8; color: #776e65; }
+.tile8    { background: #f2b179; color: #f9f6f2; }
+.tile16   { background: #f59563; color: #f9f6f2; }
+.tile32   { background: #f67c5f; color: #f9f6f2; }
+.tile64   { background: #f65e3b; color: #f9f6f2; }
+.tile128  { background: #edcf72; color: #f9f6f2; font-size: 24px; }
+.tile256  { background: #edcc61; color: #f9f6f2; font-size: 24px; }
+.tile512  { background: #edc850; color: #f9f6f2; font-size: 24px; }
+.tile1024 { background: #edc53f; color: #f9f6f2; font-size: 20px; }
+.tile2048 { background: #edc22e; color: #f9f6f2; font-size: 20px; }
+.tile4096 { background: #3c3a32; color: #f9f6f2; font-size: 20px; }
+.tileSuper { background: #3c3a32; color: #f9f6f2; font-size: 16px; }
+
+/* 128+ 带光晕 */
+.tile128,
+.tile256,
+.tile512,
+.tile1024,
+.tile2048 {
+  box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.25),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.tile4096,
+.tileSuper {
+  box-shadow: 0 0 30px 10px rgba(60, 58, 50, 0.3),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 弹窗 ========== */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 36px;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.cardIcon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #636e72;
+  margin-bottom: 4px;
+}
+
+.cardActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btnPrimary {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  border-radius: 12px;
+}
+
+.btnPrimary:active {
+  opacity: 0.85;
+}
+
+.btnSecondary {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  background: #f0f0f0;
+  color: #2d3436;
+  border-radius: 12px;
+}
+
+/* ========== 提示 ========== */
+.hint {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 12px;
+}

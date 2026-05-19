@@ -40,7 +40,7 @@ export const games: GameData[] = [
     description: '2048 是一款风靡全球的数字益智游戏。玩家通过上下左右滑动，让相同数字的方块碰撞合并，最终目标是合成 2048。游戏规则简单却极具挑战性，锻炼你的逻辑思维和空间规划能力。',
     developer: 'GameStudio',
     createdAt: '2025-01-15',
-    implemented: false,
+    implemented: true,
   },
   {
     id: '2',
