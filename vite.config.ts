@@ -3,13 +3,15 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // GitHub Pages 部署路径: https://username.github.io/repo-name/
+  base: mode === 'production' ? '/h5-game-platform/' : '/',
   server: {
     port: 3000,
     open: true,
@@ -19,4 +21,4 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
-})
+}))
