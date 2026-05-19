@@ -96,7 +96,7 @@ export const games: GameData[] = [
     description: '交换相邻的糖果，让三个或以上相同糖果连成一线即可消除！连锁反应带来华丽特效和海量分数。数百个精心设计的关卡，让你停不下来。',
     developer: 'CandyLab',
     createdAt: '2025-02-01',
-    implemented: false,
+    implemented: true,
   },
   {
     id: '6',
