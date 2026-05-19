@@ -1,0 +1,317 @@
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 12px;
+  background: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  user-select: none;
+}
+
+/* ========== 状态栏 ========== */
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+}
+
+.statusItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statusLabel {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3436;
+  font-variant-numeric: tabular-nums;
+}
+
+.difficultySelect {
+  font-size: 15px;
+  font-weight: 700;
+  color: #6c5ce7;
+  background: #f0eeff;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* ========== 棋盘 ========== */
+.board {
+  display: flex;
+  flex-direction: column;
+  border: 2.5px solid #2d3436;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  flex: 1;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #dfe6e9;
+  border-bottom: 1px solid #dfe6e9;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.1s;
+  background: #fff;
+}
+
+.cell:hover {
+  background: #f8f6ff;
+}
+
+.cellSelected {
+  background: #e8e0ff !important;
+}
+
+.cellHighlight {
+  background: #f5f2ff;
+}
+
+.cellHighlightNum {
+  background: #ddd6ff !important;
+}
+
+.cellConflict {
+  background: #ffe6e6 !important;
+}
+
+/* 宫格边框加粗 */
+.cellBorderRight {
+  border-right: 2.5px solid #2d3436;
+}
+
+.cellBorderBottom {
+  border-bottom: 2.5px solid #2d3436;
+}
+
+/* ========== 单元格内容 ========== */
+.cellValue {
+  font-size: 20px;
+  font-weight: 600;
+  color: #6c5ce7;
+  animation: popIn 0.15s ease-out;
+}
+
+.cellValueInitial {
+  color: #2d3436;
+  font-weight: 700;
+}
+
+.cellValueConflict {
+  color: #d63031;
+  font-weight: 700;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 笔记模式 */
+.notes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+}
+
+.noteItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #636e72;
+  line-height: 1;
+}
+
+/* ========== 操作按钮 ========== */
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 4px 0;
+}
+
+.actionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.15s;
+  background: #f8f8f8;
+}
+
+.actionBtn:active:not(:disabled) {
+  transform: scale(0.93);
+  background: #eee;
+}
+
+.actionBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.actionBtnActive {
+  background: #6c5ce7 !important;
+  color: #fff;
+}
+
+.actionBtnActive .actionLabel {
+  color: #fff;
+}
+
+.actionIcon {
+  font-size: 20px;
+}
+
+.actionLabel {
+  font-size: 11px;
+  color: #636e72;
+}
+
+/* ========== 数字面板 ========== */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 6px;
+  padding: 4px 0 12px;
+}
+
+.numBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 10px 0;
+  border-radius: 10px;
+  background: #f0f0f0;
+  transition: all 0.15s;
+}
+
+.numBtn:active:not(:disabled) {
+  transform: scale(0.9);
+  background: #ddd;
+}
+
+.numBtnActive {
+  background: #6c5ce7;
+  color: #fff;
+}
+
+.numBtnDone {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.numValue {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.numRemaining {
+  font-size: 9px;
+  color: #999;
+  line-height: 1;
+}
+
+.numBtnActive .numRemaining {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ========== 完成弹窗 ========== */
+.completeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.completeCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 40px;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.completeIcon {
+  font-size: 56px;
+  margin-bottom: 12px;
+}
+
+.completeCard h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #2d3436;
+}
+
+.completeCard p {
+  font-size: 15px;
+  color: #636e72;
+  margin-bottom: 4px;
+}
+
+.restartBtn {
+  margin-top: 20px;
+  padding: 12px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  border-radius: 12px;
+  transition: opacity 0.15s;
+}
+
+.restartBtn:active {
+  opacity: 0.85;
+}

@@ -1,0 +1,56 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  z-index: 999;
+}
+
+/* 工具栏 */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fff;
+  color: #2d3436;
+  flex-shrink: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.backBtn {
+  font-size: 15px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #f0f0f0;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.backBtn:active {
+  background: #e0e0e0;
+}
+
+.gameTitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* 内置游戏容器 */
+.builtinGame {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 游戏 iframe */
+.gameFrame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #000;
+}

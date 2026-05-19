@@ -1,0 +1,234 @@
+.page {
+  padding: 16px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+/* ========== 游戏头部信息 ========== */
+.hero {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.gameIcon {
+  font-size: 64px;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.gameMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gameName {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.gameCategory {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ========== 操作按钮区 ========== */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.playBtn {
+  flex: 1;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  border-radius: var(--radius-md);
+  transition: opacity 0.2s;
+}
+
+.playBtn:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.playBtn:disabled {
+  background: linear-gradient(135deg, #b2bec3, #dfe6e9);
+  cursor: not-allowed;
+}
+
+.favBtn {
+  padding: 14px 20px;
+  font-size: 16px;
+  background: #f8f6ff;
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+  transition: background 0.15s;
+}
+
+.favBtn:active {
+  background: #eee;
+}
+
+/* ========== 上线状态徽章 ========== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #00b894;
+  background: #e6fff9;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.badgeDot {
+  width: 7px;
+  height: 7px;
+  background: #00b894;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ========== 区块 ========== */
+.section {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+/* ========== 标签 ========== */
+.tagList {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 12px;
+  padding: 4px 14px;
+  background: #f0eeff;
+  color: var(--color-primary);
+  border-radius: 14px;
+}
+
+/* ========== 截图 ========== */
+.screenshots {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.screenshotPlaceholder {
+  width: 120px;
+  height: 200px;
+  flex-shrink: 0;
+  background: #f5f5f5;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #bbb;
+}
+
+.screenshotPlaceholder span:first-child {
+  font-size: 36px;
+}
+
+/* ========== 游戏信息网格 ========== */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: #f8f8f8;
+  border-radius: var(--radius-sm);
+}
+
+.infoLabel {
+  font-size: 11px;
+  color: #999;
+}
+
+.infoValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/* ========== 空状态（游戏不存在） ========== */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+}
+
+.empty p {
+  font-size: 18px;
+  color: #999;
+}
+
+.backHomeBtn {
+  padding: 10px 24px;
+  font-size: 14px;
+  color: #fff;
+  background: var(--color-primary);
+  border-radius: var(--radius-md);
+}

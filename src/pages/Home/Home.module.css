@@ -1,0 +1,205 @@
+.home {
+  padding-bottom: 16px;
+}
+
+/* 顶部 */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.searchBar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.searchIcon {
+  font-size: 14px;
+}
+
+.searchPlaceholder {
+  font-size: 14px;
+  color: #999;
+}
+
+/* Banner */
+.banner {
+  padding: 12px 16px 0;
+}
+
+.bannerCard {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+  padding: 24px 20px;
+  color: #fff;
+}
+
+.bannerTag {
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+.bannerContent h2 {
+  margin: 10px 0 4px;
+  font-size: 22px;
+}
+
+.bannerContent p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* 分类 */
+.categories {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.categoryActive {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.categoryIcon {
+  font-size: 22px;
+}
+
+.categoryName {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* 区块标题 */
+.section {
+  padding: 0 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.sectionMore {
+  font-size: 13px;
+  color: var(--color-primary);
+}
+
+/* 游戏网格 */
+.gameGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.gameCard {
+  background: #fff;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.gameCard:active {
+  transform: scale(0.97);
+}
+
+.gameIconWrap {
+  position: relative;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.gameIcon {
+  font-size: 48px;
+}
+
+.playableBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 10px;
+  padding: 2px 8px;
+  background: #00b894;
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.gameName {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.gameMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.rating {
+  color: #f39c12;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  background: #f0eeff;
+  color: var(--color-primary);
+  border-radius: 10px;
+}

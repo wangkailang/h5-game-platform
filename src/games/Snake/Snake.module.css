@@ -1,0 +1,163 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: #fafafa;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ========== 计分板 ========== */
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.scoreItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.scoreLabel {
+  font-size: 11px;
+  color: #999;
+}
+
+.scoreValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2d3436;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== 画布 ========== */
+.canvasWrap {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.canvas {
+  display: block;
+}
+
+/* ========== 弹窗 ========== */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.25s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 36px;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.cardIcon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.cardStats {
+  font-size: 14px;
+  color: #636e72;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.cardStats strong {
+  color: #6c5ce7;
+}
+
+.restartBtn {
+  padding: 12px 36px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  border-radius: 12px;
+  transition: opacity 0.15s;
+}
+
+.restartBtn:active {
+  opacity: 0.85;
+}
+
+/* ========== 虚拟方向键 ========== */
+.dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.dpadRow {
+  display: flex;
+  gap: 4px;
+}
+
+.dpadBtn {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.1s;
+  color: #2d3436;
+}
+
+.dpadBtn:active {
+  transform: scale(0.9);
+  background: #eee;
+}
+
+.dpadCenter {
+  background: #6c5ce7;
+  color: #fff;
+  font-size: 18px;
+}
+
+.dpadCenter:active {
+  background: #5a4bd1;
+}
