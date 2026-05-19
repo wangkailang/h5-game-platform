@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Sudoku } from '@/games/Sudoku'
 import { Snake } from '@/games/Snake'
 import { Game2048 } from '@/games/Game2048'
+import { Match3 } from '@/games/Match3'
 import { getGameById } from '@/data/games'
 import styles from './GamePlay.module.css'
 
@@ -10,6 +11,7 @@ import styles from './GamePlay.module.css'
 const BUILTIN_GAMES: Record<string, React.ComponentType> = {
   '1': Game2048, // 2048 经典版
   '2': Snake,    // 贪吃蛇大作战
+  '5': Match3,   // 消消乐
   '8': Sudoku,   // 数独挑战
   // 后续可扩展更多内置游戏
 }

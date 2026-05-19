@@ -1,0 +1,232 @@
+.container {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ========== 计分板 ========== */
+.scoreboard {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.scoreBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #fd79a8, #e84393);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 8px;
+}
+
+.scoreBoxMoves {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.scoreBoxTarget {
+  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+}
+
+.scoreLabel {
+  font-size: 11px;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.scoreValue {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========== 工具栏 ========== */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.toolBtn {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #f0f0f0;
+  color: #2d3436;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.toolBtn:active {
+  background: #ddd;
+}
+
+/* ========== 目标提示 ========== */
+.goalBar {
+  text-align: center;
+  font-size: 13px;
+  color: #636e72;
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #ffeaa7;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.goalBar span {
+  color: #d63031;
+  font-weight: 700;
+}
+
+/* ========== 棋盘 ========== */
+.board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #2d3436, #636e72);
+  border-radius: 14px;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  gap: 4px;
+}
+
+/* ========== 格子 ========== */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.2s ease;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cell:active {
+  transform: scale(0.92);
+}
+
+/* 选中态 */
+.cellSelected {
+  transform: scale(1.12);
+  box-shadow: 0 0 0 3px #fdcb6e, 0 0 16px rgba(253, 203, 110, 0.6);
+  z-index: 2;
+  background: rgba(253, 203, 110, 0.2);
+}
+
+/* 匹配态（消除前闪烁） */
+.cellMatched {
+  animation: matchFlash 0.3s ease-in-out;
+}
+
+@keyframes matchFlash {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.6; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* 新糖果落入 */
+.cellDrop {
+  animation: dropIn 0.25s ease-out;
+}
+
+@keyframes dropIn {
+  from { transform: translateY(-20px); opacity: 0.3; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* 无效交换抖动 */
+.cellShake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ========== 弹窗 ========== */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 36px;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+  max-width: 300px;
+  width: 85%;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.cardIcon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.card p {
+  font-size: 15px;
+  color: #636e72;
+  margin-bottom: 4px;
+}
+
+.cardActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.btnPrimary {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #e84393, #fd79a8);
+  border-radius: 12px;
+}
+
+.btnPrimary:active {
+  opacity: 0.85;
+}
+
+/* ========== 提示 ========== */
+.hint {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  margin-top: 12px;
+}
