@@ -68,7 +68,7 @@ export const games: GameData[] = [
     description: '按住屏幕蓄力，松手跳跃到下一个平台！跳得越准分数越高，连续精准跳跃还能获得加分。考验你的手感和节奏感，简单却让人上瘾。',
     developer: 'JumpStudio',
     createdAt: '2025-01-05',
-    implemented: false,
+    implemented: true,
   },
   {
     id: '4',
