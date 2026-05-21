@@ -79,7 +79,7 @@ export function createInitialState(): GameState {
 
 function slideRow(row: number[]): { row: number[]; score: number; moved: boolean } {
   // 1. 去除零
-  let filtered = row.filter((v) => v !== 0)
+  const filtered = row.filter((v) => v !== 0)
   let score = 0
 
   // 2. 合并相邻相同数字
