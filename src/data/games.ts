@@ -82,7 +82,7 @@ export const games: GameData[] = [
     description: '经典五子棋对弈游戏，支持双人对战和 AI 对弈。在 15×15 的棋盘上，先将五颗棋子连成一线者获胜。内置多种难度 AI，从新手到大师都能找到合适的挑战。',
     developer: 'ChessMaster',
     createdAt: '2025-03-10',
-    implemented: false,
+    implemented: true,
   },
   {
     id: '5',
