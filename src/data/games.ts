@@ -16,6 +16,8 @@ export interface GameData {
   createdAt: string
   /** 是否已实现（可直接玩） */
   implemented: boolean
+  /** 游戏截图（可选，用于详情页展示） */
+  screenshots?: string[]
 }
 
 export const categories = [
@@ -139,6 +141,25 @@ export const games: GameData[] = [
     developer: 'SudokuMaster',
     createdAt: '2025-01-25',
     implemented: true,
+  },
+  {
+    id: '9',
+    name: '俄罗斯方块',
+    icon: '🧱',
+    category: '益智',
+    categoryId: 'puzzle',
+    tags: ['益智', '方块', '经典', '怀旧'],
+    rating: 4.7,
+    playCount: 280000,
+    description: '🎮 全球销量超 1.7 亿份的经典益智游戏！七种色彩缤纷的方块从天而降，你需要快速旋转、移动，将它们严丝合缝地拼成完整的一行——消除得分，挑战极限！\n\n✨ 游戏特色：\n• 硬核手感：方向键精准操控，支持一键硬降\n• 幽灵预览：虚线显示方块落点，新手也能轻松上手\n• 华丽消行：满行闪烁爆破，连消高分弹出，视觉爽感拉满\n• 等级递进：速度逐级加快，从休闲到地狱级难度任你挑战\n• 最高纪录：本地保存最佳分数，不断突破自我极限\n\n💡 小技巧：长按↓加速下落可获得额外积分，空格键一键到底更是高手必备操作！',
+    developer: 'TetrisStudio',
+    createdAt: '2025-05-21',
+    implemented: true,
+    screenshots: [
+      '/images/tetris/screenshot1.jpg',
+      '/images/tetris/screenshot2.jpg',
+      '/images/tetris/screenshot3.jpg',
+    ],
   },
 ]
 
