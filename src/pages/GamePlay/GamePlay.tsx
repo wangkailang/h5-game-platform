@@ -7,6 +7,7 @@ import { Match3 } from '@/games/Match3'
 import { Jump } from '@/games/Jump'
 import { Gomoku } from '@/games/Gomoku'
 import { Tetris } from '@/games/Tetris'
+import { NinjaRun } from '@/games/NinjaRun'
 import { getGameById } from '@/data/games'
 import styles from './GamePlay.module.css'
 
@@ -17,6 +18,7 @@ const BUILTIN_GAMES: Record<string, React.ComponentType> = {
   '3': Jump,     // 跳一跳
   '4': Gomoku,   // 五子棋大师
   '5': Match3,   // 消消乐
+  '7': NinjaRun, // 忍者跑酷
   '8': Sudoku,   // 数独挑战
   '9': Tetris,   // 俄罗斯方块
   // 后续可扩展更多内置游戏
