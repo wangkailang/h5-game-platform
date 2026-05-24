@@ -126,7 +126,7 @@ export const games: GameData[] = [
     description: '化身忍者在屋顶间飞奔！点击屏幕跳跃，双击二段跳，长按滑铲躲避障碍。收集金币解锁酷炫皮肤，挑战全球排行榜。速度与激情的完美结合！',
     developer: 'NinjaGames',
     createdAt: '2025-03-20',
-    implemented: false,
+    implemented: true,
   },
   {
     id: '8',
