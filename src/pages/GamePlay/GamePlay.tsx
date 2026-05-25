@@ -8,6 +8,7 @@ import { Jump } from '@/games/Jump'
 import { Gomoku } from '@/games/Gomoku'
 import { Tetris } from '@/games/Tetris'
 import { NinjaRun } from '@/games/NinjaRun'
+import { SpiderSolitaire } from '@/games/SpiderSolitaire'
 import { getGameById } from '@/data/games'
 import styles from './GamePlay.module.css'
 
@@ -21,6 +22,7 @@ const BUILTIN_GAMES: Record<string, React.ComponentType> = {
   '7': NinjaRun, // 忍者跑酷
   '8': Sudoku,   // 数独挑战
   '9': Tetris,   // 俄罗斯方块
+  '10': SpiderSolitaire, // 蜘蛛纸牌
   // 后续可扩展更多内置游戏
 }
 
