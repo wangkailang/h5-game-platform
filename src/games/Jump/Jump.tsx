@@ -152,7 +152,8 @@ function doJump(s: JumpState): JumpState {
   const curRight = cur.x + cur.width
   const jumpDist = (s.jumpPower / 100) * MAX_JUMP_DIST
   const tx = curRight + jumpDist - PW
-  const ty = s.platforms[s.currentIndex + 1]?.y - PH ?? s.playerY
+  const nextPlatform = s.platforms[s.currentIndex + 1]
+  const ty = nextPlatform ? nextPlatform.y - PH : s.playerY
 
   return {
     ...s, status: 'jumping',

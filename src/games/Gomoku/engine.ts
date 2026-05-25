@@ -87,7 +87,7 @@ export function placeStone(state: GomokuState, pos: Position): GomokuState {
   // 检查胜负
   const winResult = checkWin(newBoard, pos, state.currentPlayer)
 
-  let newStatus = state.status === 'idle' ? 'playing' : state.status
+  let newStatus: 'idle' | 'playing' | 'gameover' = state.status === 'idle' ? 'playing' : state.status
   let newWinner = state.winner
   let newWinLine = state.winningLine
   let newBlackScore = state.blackScore
@@ -219,12 +219,10 @@ function getLineInfo(
   let totalSpace = 1
 
   // 正方向
-  let blocked = false
   for (let i = 1; i <= 4; i++) {
     const r = row + dr * i
     const c = col + dc * i
     if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) {
-      blocked = true
       break
     }
     if (board[r][c] === player) {
@@ -235,7 +233,6 @@ function getLineInfo(
       totalSpace++
       break
     } else {
-      blocked = true
       break
     }
   }
@@ -406,7 +403,7 @@ function drawStone(
   row: number,
   col: number,
   player: Player,
-  isLast: boolean
+  _isLast: boolean
 ): void {
   const x = PADDING + col * CELL_SIZE
   const y = PADDING + row * CELL_SIZE
