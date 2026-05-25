@@ -20,7 +20,9 @@ import {
 } from './layout'
 import styles from './SpiderSolitaire.module.css'
 
-const MIN_SCALE = 0.32
+// 最小缩放抬高到 0.5：手机竖屏放不下 10 列时,牌不再被压成 ~31px,
+// 而是保持 ~40px(更好点按),牌桌可横向平移查看。
+const MIN_SCALE = 0.5
 const MAX_SCALE = 1.15
 const DIFFICULTIES: Difficulty[] = [1, 2, 3, 4]
 
@@ -127,6 +129,7 @@ function SpiderSolitaire() {
     }
   }, [])
 
+  const onScreenWidth = BOARD_W * scale
   const onScreenHeight = boardHeight * scale
 
   // 横屏：整个 stage 旋转 90°,并用容器宽高互换撑满
@@ -343,14 +346,14 @@ function SpiderSolitaire() {
 
       {/* 棋盘缩放容器 */}
       <div className={styles.boardScroll} ref={scrollRef}>
-        <div className={styles.boardWrapper} style={{ height: onScreenHeight }}>
+        <div className={styles.boardWrapper} style={{ width: onScreenWidth, height: onScreenHeight }}>
           <div
             ref={game.boardRef}
             className={styles.board}
             style={{
               width: BOARD_W,
               height: layout.height,
-              transform: `translate(-50%, -50%) scale(${scale})`,
+              transform: `scale(${scale})`,
             }}
           >
             {/* 完成堆槽位 */}

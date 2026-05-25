@@ -155,21 +155,23 @@
 .boardScroll {
   flex: 1;
   margin-top: 8px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* 牌桌可超出视口时双向平移(手机上牌面更大、更好操作);牌本身 touch-action:none 不抢手势 */
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
+/* 缩放后的实际占位尺寸由内联 style 给出(width/height = 设计尺寸 × scale);
+   margin:auto 在能容下时水平居中,容不下时左对齐并可横向滚动 */
 .boardWrapper {
   position: relative;
-  width: 100%;
+  margin: 0 auto;
 }
 
 .board {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: center;
+  left: 0;
+  top: 0;
+  transform-origin: top left;
   transition: transform 0.25s ease;
 }
 
@@ -267,6 +269,7 @@
   left: 0;
   perspective: 700px;
   will-change: transform;
+  touch-action: none; /* 拖牌时不触发牌桌平移;空白处仍可平移 */
 }
 
 .card.animated {
@@ -540,18 +543,20 @@
   }
   .controls {
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 4px;
   }
+  /* 操作按钮更紧凑:不再撑满整行,内容自适应,留更多空间给牌桌 */
   .btn {
-    flex: 1;
-    padding: 8px 6px;
-    font-size: 12px;
-    text-align: center;
+    flex: 0 0 auto;
+    padding: 4px 7px;
+    font-size: 11px;
+    border-radius: 7px;
   }
   .diffBtn {
     flex: 1;
-    padding: 6px 4px;
-    font-size: 13px;
+    padding: 5px 4px;
+    font-size: 12px;
   }
   .modal {
     padding: 22px 20px;
