@@ -51,7 +51,7 @@ function CardFace({ card }: { card: Card }) {
 function SpiderSolitaire() {
   const game = useSpiderSolitaire()
   const { setScale: setBoardScale } = game
-  const wrapperRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
 
   const layout = useMemo(
@@ -64,13 +64,17 @@ function SpiderSolitaire() {
     [game.columns, game.stock, game.foundations],
   )
 
-  // 按容器宽度等比缩放整块棋盘
+  // 等比缩放整块棋盘：同时适配可用「宽度」与「高度」，取两者较小的比例。
+  // 竖屏通常宽度受限(超高时纵向滚动)，横屏通常高度受限——
+  // 这样横屏下整副牌桌都能完整可见，无需滚动。
+  const boardHeight = layout.height
   useLayoutEffect(() => {
-    const el = wrapperRef.current
+    const el = scrollRef.current
     if (!el) return
     const measure = () => {
-      const w = el.clientWidth
-      const next = Math.max(MIN_SCALE, Math.min(MAX_SCALE, (w - 4) / BOARD_W))
+      const ws = (el.clientWidth - 8) / BOARD_W
+      const hs = (el.clientHeight - 8) / boardHeight
+      const next = Math.max(MIN_SCALE, Math.min(MAX_SCALE, Math.min(ws, hs)))
       setScale(next)
       setBoardScale(next)
     }
@@ -78,7 +82,7 @@ function SpiderSolitaire() {
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [setBoardScale])
+  }, [setBoardScale, boardHeight])
 
   // 胜利彩带
   const confetti = useMemo(() => {
@@ -261,8 +265,8 @@ function SpiderSolitaire() {
       </div>
 
       {/* 棋盘缩放容器 */}
-      <div className={styles.boardScroll}>
-        <div ref={wrapperRef} className={styles.boardWrapper} style={{ height: layout.height * scale }}>
+      <div className={styles.boardScroll} ref={scrollRef}>
+        <div className={styles.boardWrapper} style={{ height: layout.height * scale }}>
           <div
             ref={game.boardRef}
             className={styles.board}
