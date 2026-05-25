@@ -18,6 +18,7 @@ export interface BestStat {
 export interface Settings {
   difficulty: Difficulty
   animations: boolean
+  forcedLandscape: boolean
 }
 
 export interface CurrentGame {
@@ -36,7 +37,7 @@ const DEFAULT_STORE: SpiderStore = {
   version: VERSION,
   bestStats: {},
   current: null,
-  settings: { difficulty: 1, animations: true },
+  settings: { difficulty: 1, animations: true, forcedLandscape: false },
 }
 
 function safeRead(): SpiderStore {
