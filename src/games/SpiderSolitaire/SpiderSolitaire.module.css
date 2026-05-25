@@ -110,45 +110,64 @@
   50% { box-shadow: 0 0 18px rgba(255, 213, 74, 0.95); }
 }
 
-/* ─── 难度选择 ─── */
-.difficultyBar {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* ─── 难度下拉(替代原来的整行按钮,避免误触) ─── */
+.diffSelect {
+  position: relative;
+  display: inline-flex;
 }
 
-.diffBtn {
+.menuBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.diffMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 201;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid transparent;
+  gap: 4px;
+  padding: 6px;
+  min-width: 132px;
+  background: #1f3b2c;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.diffItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
-  transition: all 0.18s;
+  white-space: nowrap;
+  transition: background 0.15s;
 }
 
-.diffBtn:hover {
-  background: rgba(255, 255, 255, 0.2);
+.diffItem:hover {
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.diffBtn.active {
+.diffItemActive {
   border-color: #ffd54a;
-  background: rgba(255, 213, 74, 0.22);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 213, 74, 0.18);
 }
 
-.diffSub {
-  font-size: 10px;
+.diffItemSub {
+  font-size: 11px;
   font-weight: 500;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 /* ─── 棋盘 ─── */
