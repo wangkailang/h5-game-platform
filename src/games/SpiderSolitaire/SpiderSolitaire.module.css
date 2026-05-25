@@ -159,6 +159,7 @@
   position: relative;
   transform-origin: top center;
   flex: none;
+  transition: transform 0.2s ease;
 }
 
 /* 槽位（完成堆 / 空列） */
@@ -543,5 +544,51 @@
   }
   .modal {
     padding: 22px 20px;
+  }
+}
+
+/* ─── 手机横屏:高度紧张,压缩顶部留给牌桌更多空间 ─── */
+@media (orientation: landscape) and (max-height: 540px) {
+  .container {
+    padding: 4px 10px 2px;
+  }
+  .topbar {
+    padding: 4px 12px;
+    gap: 6px 12px;
+    border-radius: 10px;
+  }
+  .stats {
+    gap: 14px;
+  }
+  .stat {
+    min-width: 38px;
+  }
+  .statLabel {
+    font-size: 9px;
+  }
+  .statValue {
+    font-size: 14px;
+  }
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  .difficultyBar {
+    margin-top: 4px;
+    gap: 6px;
+  }
+  /* 难度按钮横向排布,标签与花色数同行,显著降低高度 */
+  .diffBtn {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 5px;
+    padding: 3px 12px;
+    font-size: 12px;
+  }
+  .diffSub {
+    font-size: 9px;
+  }
+  .boardScroll {
+    margin-top: 4px;
   }
 }
