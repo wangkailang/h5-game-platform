@@ -161,6 +161,25 @@ export const games: GameData[] = [
       '/images/tetris/screenshot3.jpg',
     ],
   },
+  {
+    id: '10',
+    name: '蜘蛛纸牌',
+    icon: '🕷️',
+    category: '益智',
+    categoryId: 'puzzle',
+    tags: ['益智', '纸牌', '经典', '单人'],
+    rating: 4.6,
+    playCount: 180000,
+    description: '🕷️ 经典蜘蛛纸牌游戏，三种难度自由选择！将同花色的牌从K到A排列即可消除，目标是清空所有牌堆。\n\n✨ 游戏特色：\n• 三种难度：1花色（简单）、2花色（中等）、4花色（困难）\n• 智能提示：一键显示可移动的牌\n• 自动完成：当所有牌都翻开时，自动完成游戏\n• 撤销功能：支持撤销操作\n• 分数系统：翻牌得分、完成序列得分、移动扣分\n\n🎮 操作方式：\n• 点击选中牌，再点击目标位置移动\n• 按D键发牌\n• 按H键获取提示\n• Ctrl+Z撤销\n• Ctrl+R重新开始\n\n💡 小技巧：优先翻开面朝下的牌，保持列的灵活性！',
+    developer: 'SolitaireStudio',
+    createdAt: '2025-05-25',
+    implemented: true,
+    screenshots: [
+      '/images/spider/screenshot1.jpg',
+      '/images/spider/screenshot2.jpg',
+      '/images/spider/screenshot3.jpg',
+    ],
+  },
 ]
 
 /** 根据 ID 获取游戏 */
