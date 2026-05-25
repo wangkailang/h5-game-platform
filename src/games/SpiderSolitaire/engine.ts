@@ -210,6 +210,9 @@ export function moveCards(state: SpiderState, fromCol: number, cardIndex: number
   if (newState.foundations.length === FOUNDATION_COUNT) {
     newState.status = 'won'
     newState.score += 1000
+  } else if (!hasValidMoves(newState)) {
+    // 发牌堆已空且无任何可走步 → 死局，给出失败提示（玩家仍可撤销/重开）
+    newState.status = 'lost'
   }
 
   return newState
@@ -293,7 +296,7 @@ function hasValidMoves(state: SpiderState): boolean {
       for (let toCol = 0; toCol < COLUMN_COUNT; toCol++) {
         if (canMoveCards(state, fromCol, cardIndex, toCol)) return true
       }
-      break // 同列只需检查最上方的可移动序列起点
+      // 不能 break：较小的子序列(如仅顶端单张)可落到不同目标，需逐一检查
     }
   }
   if (canDeal(state)) return true
@@ -338,7 +341,7 @@ export function getHint(state: SpiderState): SpiderState {
           return { ...state, hint: { from: fromCol, to: toCol } }
         }
       }
-      break
+      // 不能 break：需检查同列内较小子序列的落点
     }
   }
   return { ...state, hint: null }
@@ -369,6 +372,8 @@ export function autoComplete(state: SpiderState): SpiderState {
   if (newState.foundations.length === FOUNDATION_COUNT) {
     newState.status = 'won'
     newState.score += 1000
+  } else if (!hasValidMoves(newState)) {
+    newState.status = 'lost'
   }
   return newState
 }
