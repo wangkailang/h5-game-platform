@@ -4,7 +4,6 @@ import {
   placeStone,
   aiMove,
   render,
-  CANVAS_SIZE,
   CELL_SIZE,
   PADDING,
   BOARD_SIZE,
@@ -15,7 +14,6 @@ import {
 export function useGomoku(mode: 'pvp' | 'pve' = 'pve') {
   const [state, setState] = useState<GomokuState>(() => createInitialState(mode))
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animFrameRef = useRef<number>(0)
 
   // 渲染
   const draw = useCallback(() => {
