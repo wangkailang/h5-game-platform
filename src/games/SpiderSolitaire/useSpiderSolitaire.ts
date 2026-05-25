@@ -60,7 +60,8 @@ export function useSpiderSolitaire() {
     store.current ? store.current.state : createInitialState(store.settings.difficulty),
   )
   const [elapsedSec, setElapsedSec] = useState<number>(store.current?.elapsedSec ?? 0)
-  const [animations, setAnimations] = useState<boolean>(store.settings.animations)
+  const [paused, setPaused] = useState(false)
+  const [forcedLandscape, setForcedLandscape] = useState<boolean>(store.settings.forcedLandscape ?? false)
   const [showWin, setShowWin] = useState(false)
   const [bestStat, setBestStat] = useState<BestStat | undefined>(store.bestStats[state.difficulty])
   const [dragState, setDragState] = useState<DragState>(EMPTY_DRAG)
@@ -72,22 +73,31 @@ export function useSpiderSolitaire() {
   const historyRef = useRef<SpiderState[]>([])
   const elapsedRef = useRef(elapsedSec)
   const stateRef = useRef(state)
+  const rotatedRef = useRef(forcedLandscape)
+  const pausedRef = useRef(paused)
   const hintTimer = useRef<ReturnType<typeof setTimeout>>()
   const dealTimer = useRef<ReturnType<typeof setTimeout>>()
   const pending = useRef<{ col: number; cardIndex: number; startX: number; startY: number } | null>(null)
 
   elapsedRef.current = elapsedSec
   stateRef.current = state // 始终持有最新已提交状态，供事件回调读取
+  rotatedRef.current = forcedLandscape
+  pausedRef.current = paused
 
   const setScale = useCallback((s: number) => {
     scaleRef.current = s
   }, [])
 
   // ─── 坐标换算：客户端 → 棋盘设计坐标 ───
+  // 横屏模式下棋盘整体顺时针旋转 90°，反推时交换坐标轴：
+  // 屏幕纵向 → 棋盘 x，屏幕横向(自右往左) → 棋盘 y。
   const toBoard = useCallback((clientX: number, clientY: number) => {
     const rect = boardRef.current?.getBoundingClientRect()
     const scale = scaleRef.current || 1
     if (!rect) return { x: clientX, y: clientY }
+    if (rotatedRef.current) {
+      return { x: (clientY - rect.top) / scale, y: (rect.right - clientX) / scale }
+    }
     return { x: (clientX - rect.left) / scale, y: (clientY - rect.top) / scale }
   }, [])
 
@@ -119,10 +129,10 @@ export function useSpiderSolitaire() {
 
   // ─── 计时器 ───
   useEffect(() => {
-    if (state.status !== 'playing') return
+    if (state.status !== 'playing' || paused) return
     const id = setInterval(() => setElapsedSec((s) => s + 1), 1000)
     return () => clearInterval(id)
-  }, [state.status])
+  }, [state.status, paused])
 
   // ─── 持久化：状态变化即存档 ───
   useEffect(() => {
@@ -159,6 +169,7 @@ export function useSpiderSolitaire() {
       setElapsedSec(0)
       elapsedRef.current = 0
       setShowWin(false)
+      setPaused(false)
       setBestStat(loadStore().bestStats[difficulty])
       saveSettings({ difficulty })
     },
@@ -203,10 +214,12 @@ export function useSpiderSolitaire() {
 
   const handleAutoComplete = useCallback(() => apply((prev) => autoComplete(prev)), [apply])
 
-  const toggleAnimations = useCallback(() => {
-    setAnimations((a) => {
-      const next = !a
-      saveSettings({ animations: next })
+  const togglePause = useCallback(() => setPaused((p) => !p), [])
+
+  const toggleOrientation = useCallback(() => {
+    setForcedLandscape((v) => {
+      const next = !v
+      saveSettings({ forcedLandscape: next })
       return next
     })
   }, [])
@@ -222,6 +235,7 @@ export function useSpiderSolitaire() {
   // ─── 拖拽 ───
   const startPointer = useCallback(
     (colIndex: number, cardIndex: number, clientX: number, clientY: number) => {
+      if (pausedRef.current) return
       pending.current = { col: colIndex, cardIndex, startX: clientX, startY: clientY }
     },
     [],
@@ -297,6 +311,7 @@ export function useSpiderSolitaire() {
   // ─── 键盘快捷键 ───
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (pausedRef.current) return // 暂停时屏蔽所有快捷键
       const meta = e.ctrlKey || e.metaKey
       switch (e.key.toLowerCase()) {
         case 'd':
@@ -324,7 +339,8 @@ export function useSpiderSolitaire() {
     ...state,
     elapsedSec,
     bestStat,
-    animations,
+    paused,
+    forcedLandscape,
     showWin,
     dragState,
     dealAnimating,
@@ -342,7 +358,8 @@ export function useSpiderSolitaire() {
     handleRestart,
     handleDifficultyChange,
     handleAutoComplete,
-    toggleAnimations,
+    togglePause,
+    toggleOrientation,
     setShowWin,
   }
 }

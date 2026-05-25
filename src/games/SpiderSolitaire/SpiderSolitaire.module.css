@@ -150,16 +150,16 @@
 }
 
 .boardWrapper {
+  position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 .board {
-  position: relative;
-  transform-origin: top center;
-  flex: none;
-  transition: transform 0.2s ease;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  transition: transform 0.25s ease;
 }
 
 /* 槽位（完成堆 / 空列） */
