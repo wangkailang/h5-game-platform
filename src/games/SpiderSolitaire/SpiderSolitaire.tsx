@@ -272,6 +272,16 @@ function SpiderSolitaire() {
     }
   }, [game.showWin])
 
+  // 难度下拉 + 切换确认（避免误触把进行中的牌局清掉）
+  const [diffMenuOpen, setDiffMenuOpen] = useState(false)
+  const [pendingDiff, setPendingDiff] = useState<Difficulty | null>(null)
+  const chooseDifficulty = (d: Difficulty) => {
+    setDiffMenuOpen(false)
+    if (d === game.difficulty) return
+    if (game.status === 'playing' && game.moves > 0) setPendingDiff(d) // 有进度 → 先确认
+    else game.handleDifficultyChange(d)
+  }
+
   const completed = game.foundations.length
 
   return (
@@ -288,6 +298,28 @@ function SpiderSolitaire() {
           <Stat label="最佳" value={game.bestStat ? game.bestStat.bestScore : '—'} />
         </div>
         <div className={styles.controls}>
+          <div className={styles.diffSelect}>
+            <button className={styles.btn} onClick={() => setDiffMenuOpen((o) => !o)} title="选择难度">
+              🎚 {DIFFICULTY_LABELS[game.difficulty]} ▾
+            </button>
+            {diffMenuOpen && (
+              <>
+                <div className={styles.menuBackdrop} onClick={() => setDiffMenuOpen(false)} />
+                <div className={styles.diffMenu}>
+                  {DIFFICULTIES.map((d) => (
+                    <button
+                      key={d}
+                      className={`${styles.diffItem} ${d === game.difficulty ? styles.diffItemActive : ''}`}
+                      onClick={() => chooseDifficulty(d)}
+                    >
+                      <span>{DIFFICULTY_LABELS[d]}</span>
+                      <span className={styles.diffItemSub}>{d} 花色</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
           <button className={styles.btn} onClick={game.handleDeal} disabled={!game.canDeal} title="发牌 (D)">
             🃏 发牌
           </button>
@@ -328,20 +360,6 @@ function SpiderSolitaire() {
             {isFullscreen ? '⛶ 退出' : '⛶ 全屏'}
           </button>
         </div>
-      </div>
-
-      {/* 难度选择 */}
-      <div className={styles.difficultyBar}>
-        {DIFFICULTIES.map((d) => (
-          <button
-            key={d}
-            className={`${styles.diffBtn} ${game.difficulty === d ? styles.active : ''}`}
-            onClick={() => game.handleDifficultyChange(d)}
-          >
-            {DIFFICULTY_LABELS[d]}
-            <span className={styles.diffSub}>{d} 花色</span>
-          </button>
-        ))}
       </div>
 
       {/* 棋盘缩放容器 */}
@@ -408,6 +426,33 @@ function SpiderSolitaire() {
         </div>
       </div>
       </div>
+
+      {/* 切换难度确认 */}
+      {pendingDiff != null && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalIcon}>🎚️</div>
+            <h2 className={styles.modalTitle}>切换难度？</h2>
+            <p className={styles.bestLine}>
+              切换到「{DIFFICULTY_LABELS[pendingDiff]}」会放弃当前牌局进度，确定吗？
+            </p>
+            <div className={styles.modalBtns}>
+              <button
+                className={`${styles.modalBtn} ${styles.primary}`}
+                onClick={() => {
+                  game.handleDifficultyChange(pendingDiff)
+                  setPendingDiff(null)
+                }}
+              >
+                确定切换
+              </button>
+              <button className={styles.modalBtn} onClick={() => setPendingDiff(null)}>
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 暂停 */}
       {game.paused && (
