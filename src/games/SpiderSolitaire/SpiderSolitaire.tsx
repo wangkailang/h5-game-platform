@@ -65,15 +65,18 @@ function SpiderSolitaire() {
   )
 
   // 等比缩放整块棋盘：同时适配可用「宽度」与「高度」，取两者较小的比例。
-  // 竖屏通常宽度受限(超高时纵向滚动)，横屏通常高度受限——
-  // 这样横屏下整副牌桌都能完整可见，无需滚动。
+  // 竖屏通常宽度受限(超高时纵向滚动)，横屏通常高度受限——整副牌桌完整可见。
+  // 横屏模式(forcedLandscape)下棋盘旋转 90°，屏上宽高互换。
   const boardHeight = layout.height
+  const rotated = game.forcedLandscape
   useLayoutEffect(() => {
     const el = scrollRef.current
     if (!el) return
     const measure = () => {
-      const ws = (el.clientWidth - 8) / BOARD_W
-      const hs = (el.clientHeight - 8) / boardHeight
+      const availW = el.clientWidth - 8
+      const availH = el.clientHeight - 8
+      const ws = rotated ? availW / boardHeight : availW / BOARD_W
+      const hs = rotated ? availH / BOARD_W : availH / boardHeight
       const next = Math.max(MIN_SCALE, Math.min(MAX_SCALE, Math.min(ws, hs)))
       setScale(next)
       setBoardScale(next)
@@ -82,7 +85,10 @@ function SpiderSolitaire() {
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [setBoardScale, boardHeight])
+  }, [setBoardScale, boardHeight, rotated])
+
+  // 旋转后屏上占位的宽高互换
+  const onScreenHeight = (rotated ? BOARD_W : boardHeight) * scale
 
   // 胜利彩带
   const confetti = useMemo(() => {
@@ -141,7 +147,7 @@ function SpiderSolitaire() {
   game.stock.forEach((card) => allCards.push({ card, colIndex: -1, cardIndex: -1 }))
   game.foundations.forEach((set) => set.forEach((card) => allCards.push({ card, colIndex: -2, cardIndex: -1 })))
 
-  const transitionsOn = game.animations && !game.dragState.active
+  const transitionsOn = !game.dragState.active
 
   const renderCard = ({ card, colIndex, cardIndex }: { card: Card; colIndex: number; cardIndex: number }) => {
     const isDragged = dragIdSet.has(card.id)
@@ -177,6 +183,8 @@ function SpiderSolitaire() {
       <div
         key={card.id}
         className={cls}
+        data-col={region === 'tableau' ? colIndex : undefined}
+        data-idx={region === 'tableau' ? cardIndex : undefined}
         style={{
           width: CARD_W,
           height: CARD_H,
@@ -241,11 +249,19 @@ function SpiderSolitaire() {
             ⟳ 新局
           </button>
           <button
-            className={`${styles.btn} ${game.animations ? styles.on : ''}`}
-            onClick={game.toggleAnimations}
-            title="动画开关"
+            className={styles.btn}
+            onClick={game.togglePause}
+            disabled={game.status !== 'playing'}
+            title="暂停"
           >
-            🎬
+            ⏸ 暂停
+          </button>
+          <button
+            className={`${styles.btn} ${game.forcedLandscape ? styles.on : ''}`}
+            onClick={game.toggleOrientation}
+            title="切换竖屏 / 横屏"
+          >
+            {game.forcedLandscape ? '⤡ 竖屏' : '⤢ 横屏'}
           </button>
         </div>
       </div>
@@ -266,11 +282,15 @@ function SpiderSolitaire() {
 
       {/* 棋盘缩放容器 */}
       <div className={styles.boardScroll} ref={scrollRef}>
-        <div className={styles.boardWrapper} style={{ height: layout.height * scale }}>
+        <div className={styles.boardWrapper} style={{ height: onScreenHeight }}>
           <div
             ref={game.boardRef}
             className={styles.board}
-            style={{ width: BOARD_W, height: layout.height, transform: `scale(${scale})` }}
+            style={{
+              width: BOARD_W,
+              height: layout.height,
+              transform: `translate(-50%, -50%) rotate(${rotated ? 90 : 0}deg) scale(${scale})`,
+            }}
           >
             {/* 完成堆槽位 */}
             {layout.foundationSlots.map((slot, i) => (
@@ -323,6 +343,24 @@ function SpiderSolitaire() {
           </div>
         </div>
       </div>
+
+      {/* 暂停 */}
+      {game.paused && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalIcon}>⏸️</div>
+            <h2 className={styles.modalTitle}>已暂停</h2>
+            <p className={styles.bestLine}>
+              用时 {formatTime(game.elapsedSec)} · 步数 {game.moves} · 得分 {game.score}
+            </p>
+            <div className={styles.modalBtns}>
+              <button className={`${styles.modalBtn} ${styles.primary}`} onClick={game.togglePause}>
+                继续游戏
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 胜利庆祝 */}
       {game.showWin && (
