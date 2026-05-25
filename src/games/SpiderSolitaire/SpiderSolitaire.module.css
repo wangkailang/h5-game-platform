@@ -12,6 +12,17 @@
   overflow: hidden;
 }
 
+/* 旋转舞台：包裹工具栏+难度+牌桌,横屏时整体旋转 90° */
+.stage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
 /* ─── 顶部工具栏 ─── */
 .topbar {
   display: flex;
