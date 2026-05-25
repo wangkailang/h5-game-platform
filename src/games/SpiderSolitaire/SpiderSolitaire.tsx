@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { useSpiderSolitaire } from './useSpiderSolitaire'
 import {
   COLUMN_COUNT,
@@ -51,8 +51,12 @@ function CardFace({ card }: { card: Card }) {
 function SpiderSolitaire() {
   const game = useSpiderSolitaire()
   const { setScale: setBoardScale } = game
+  const containerRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const [scale, setScale] = useState(1)
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 })
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const rotated = game.forcedLandscape
 
   const layout = useMemo(
     () =>
@@ -64,19 +68,16 @@ function SpiderSolitaire() {
     [game.columns, game.stock, game.foundations],
   )
 
-  // 等比缩放整块棋盘：同时适配可用「宽度」与「高度」，取两者较小的比例。
-  // 竖屏通常宽度受限(超高时纵向滚动)，横屏通常高度受限——整副牌桌完整可见。
-  // 横屏模式(forcedLandscape)下棋盘旋转 90°，屏上宽高互换。
+  // 棋盘缩放：板子本身不旋转(旋转由 stage 整体承担),始终按其所在框的
+  // 宽/高较小比例适配。横屏时 stage 旋转后,牌桌区在旋转坐标系里变成宽幅,
+  // 这里测得的 clientWidth/Height 即旋转后的布局尺寸,自然适配。
   const boardHeight = layout.height
-  const rotated = game.forcedLandscape
   useLayoutEffect(() => {
     const el = scrollRef.current
     if (!el) return
     const measure = () => {
-      const availW = el.clientWidth - 8
-      const availH = el.clientHeight - 8
-      const ws = rotated ? availW / boardHeight : availW / BOARD_W
-      const hs = rotated ? availH / BOARD_W : availH / boardHeight
+      const ws = (el.clientWidth - 8) / BOARD_W
+      const hs = (el.clientHeight - 8) / boardHeight
       const next = Math.max(MIN_SCALE, Math.min(MAX_SCALE, Math.min(ws, hs)))
       setScale(next)
       setBoardScale(next)
@@ -85,10 +86,61 @@ function SpiderSolitaire() {
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [setBoardScale, boardHeight, rotated])
+  }, [setBoardScale, boardHeight])
 
-  // 旋转后屏上占位的宽高互换
-  const onScreenHeight = (rotated ? BOARD_W : boardHeight) * scale
+  // 容器尺寸：横屏时整个 stage 旋转 90°,需用容器宽高互换来撑满
+  useLayoutEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const measure = () => setContainerSize({ w: el.clientWidth, h: el.clientHeight })
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  // 全屏切换
+  const handleFullscreen = useCallback(() => {
+    const el = containerRef.current as (HTMLDivElement & { webkitRequestFullscreen?: () => void }) | null
+    const doc = document as Document & { webkitExitFullscreen?: () => void; webkitFullscreenElement?: Element }
+    const fsEl = document.fullscreenElement || doc.webkitFullscreenElement
+    if (!fsEl) {
+      const req = el?.requestFullscreen?.() as Promise<void> | undefined
+      req?.catch(() => {})
+      el?.webkitRequestFullscreen?.()
+    } else {
+      document.exitFullscreen?.()
+      doc.webkitExitFullscreen?.()
+    }
+  }, [])
+
+  useEffect(() => {
+    const onFs = () => {
+      const doc = document as Document & { webkitFullscreenElement?: Element }
+      setIsFullscreen(!!(document.fullscreenElement || doc.webkitFullscreenElement))
+    }
+    document.addEventListener('fullscreenchange', onFs)
+    document.addEventListener('webkitfullscreenchange', onFs)
+    return () => {
+      document.removeEventListener('fullscreenchange', onFs)
+      document.removeEventListener('webkitfullscreenchange', onFs)
+    }
+  }, [])
+
+  const onScreenHeight = boardHeight * scale
+
+  // 横屏：整个 stage 旋转 90°,并用容器宽高互换撑满
+  const stageStyle: CSSProperties =
+    rotated && containerSize.w > 0
+      ? {
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          width: containerSize.h,
+          height: containerSize.w,
+          transform: 'translate(-50%, -50%) rotate(90deg)',
+        }
+      : {}
 
   // 胜利彩带
   const confetti = useMemo(() => {
@@ -220,7 +272,9 @@ function SpiderSolitaire() {
   const completed = game.foundations.length
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
+      {/* 旋转舞台：横屏时整个界面(工具栏+难度+牌桌)一起旋转 */}
+      <div className={styles.stage} style={stageStyle}>
       {/* 顶部工具栏 */}
       <div className={styles.topbar}>
         <div className={styles.stats}>
@@ -263,6 +317,13 @@ function SpiderSolitaire() {
           >
             {game.forcedLandscape ? '⤡ 竖屏' : '⤢ 横屏'}
           </button>
+          <button
+            className={`${styles.btn} ${isFullscreen ? styles.on : ''}`}
+            onClick={handleFullscreen}
+            title="全屏"
+          >
+            {isFullscreen ? '⛶ 退出' : '⛶ 全屏'}
+          </button>
         </div>
       </div>
 
@@ -289,7 +350,7 @@ function SpiderSolitaire() {
             style={{
               width: BOARD_W,
               height: layout.height,
-              transform: `translate(-50%, -50%) rotate(${rotated ? 90 : 0}deg) scale(${scale})`,
+              transform: `translate(-50%, -50%) scale(${scale})`,
             }}
           >
             {/* 完成堆槽位 */}
@@ -342,6 +403,7 @@ function SpiderSolitaire() {
             {allCards.map(renderCard)}
           </div>
         </div>
+      </div>
       </div>
 
       {/* 暂停 */}
